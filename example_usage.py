@@ -1,5 +1,5 @@
 import logging
-import AthenaQuerier
+import athena_querier
 
 if __name__ == '__main__':
     # Configure logging
@@ -22,10 +22,11 @@ if __name__ == '__main__':
     ]
 
     # Run the query
-    querier = AthenaQuerier.AthenaQuerier(DATABASE_NAME, OUTPUT_LOCATION)
+    querier = athena_querier.AthenaQuerier(DATABASE_NAME, OUTPUT_LOCATION)
     results = querier.execute_multiple_athena_queries(QUERY_LIST)
 
-    if results:
-        for result in results:
-            for row in result['Rows']:
-                logger.info(row['Data'])
+    # # Debugging
+    # if results:
+    #     for result in results:
+    #         for row in result['Rows']:
+    #             logger.info(row['Data'])
