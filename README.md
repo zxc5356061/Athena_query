@@ -1,6 +1,6 @@
 # Athena_query
 
-- A generic Python script to query S3 buckets through Athena
+- A generic Python script to query datalake on AWS through Athena
 - Multiple queries supported
 - Support read queries from .sql file
 - Export query response as .parquet file
