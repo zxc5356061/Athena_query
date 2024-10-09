@@ -36,13 +36,12 @@ class AthenaQuerier:
                 response = self.client.get_query_execution(QueryExecutionId=self.query_execution_id)
                 status = response['QueryExecution']['Status']['State']
                 if status in ['SUCCEEDED', 'FAILED', 'CANCELLED']:
-                    break
+                    break  # if "return status" -> Exception won't be triggered
             except ClientError as e:
                 logger.error(f"Error checking query status: {e}")
                 if attempt < retries - 1:
                     time.sleep(wait_interval)  # wait before retrying the request
-                else:
-                    raise
+                    # if attempt = retries -> ClientError
 
             time.sleep(wait_interval)  # Wait for status
 
@@ -66,6 +65,7 @@ class AthenaQuerier:
 
         if self.query_execution_id:
             status = self.check_query_status()
+            logger.info(f"Query execution status: {status}")
             if status == 'SUCCEEDED':
                 logger.info(f"Query execution succeeded: {self.query_execution_id}")
                 query_results = self.fetch_results()
@@ -85,3 +85,4 @@ class AthenaQuerier:
                 results.append(result)
             time.sleep(wait_interval)  # to avoid throttling
         return results
+
